@@ -1,15 +1,17 @@
 const int trigPin = 10;
 const int echoPin = 9;
-const int LEDpin1 = 4;
-const int LEDpin2 = 2;
+const int LEDpinRed = 2;
+const int LEDpinGreen = 4;
+const int LEDpinYellow = 6;
 
 float duration, distance;
 
 void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  pinMode(LEDpin1, OUTPUT);
-  pinMode(LEDpin2, OUTPUT);
+  pinMode(LEDpinRed, OUTPUT);
+  pinMode(LEDpinGreen, OUTPUT);
+  pinMode(LEDpinYellow, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -22,14 +24,24 @@ void loop() {
 
   float duration = pulseIn(echoPin, HIGH);
   float distance = (duration*.0343)/2;
-  if (distance < 10){
-    digitalWrite(LEDpin2, LOW);
-    Serial.println ("Too close!");
-    digitalWrite(LEDpin1, HIGH);
-  } else if (distance > 500) {
-    digitalWrite(LEDpin1, LOW);
-    Serial.println ("Too far!");
-    digitalWrite(LEDpin2, HIGH);
+  Serial.println(distance);
+  if (distance <= 10){
+    digitalWrite(LEDpinYellow, HIGH);
+    digitalWrite(LEDpinRed, LOW);
+    digitalWrite(LEDpinGreen, LOW);
+  } else if (distance > 10){
+      digitalWrite(LEDpinGreen, HIGH);
+      digitalWrite(LEDpinRed, LOW);
+      digitalWrite(LEDpinYellow, LOW);
   }
+    else if (distance > 5){
+      digitalWrite(LEDpinYellow, HIGH);
+      digitalWrite(LEDpinRed, LOW);
+      digitalWrite(LEDpinGreen, LOW);
+    } if (distance < 5){
+      digitalWrite(LEDpinYellow, LOW);
+      digitalWrite(LEDpinRed, HIGH);
+      digitalWrite(LEDpinGreen, LOW);
+    }
   delay(100);
 }
